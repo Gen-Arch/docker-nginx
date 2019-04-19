@@ -2,6 +2,7 @@ version: '2'
 services:
   nginx:
     build: .
+    container_name: nginx
     command: >
       /bin/sh -c
       "envsubst '
@@ -18,3 +19,5 @@ services:
       - 443:443
     environment:
       NGINX_SERVER_NAME: "test.example.com"
+    extra_hosts:
+     - local_dev:192.168.0.114
