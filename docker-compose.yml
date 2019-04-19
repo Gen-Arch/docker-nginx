@@ -3,22 +3,28 @@ services:
   nginx:
     build: .
     container_name: nginx
+    # 再起動ポリシー追加
     restart: always
+    # SERVER_NAMEを埋め込んでnginx.conf生成
     command: >
       /bin/sh -c
       "envsubst '
       $$NGINX_SERVER_NAME
+      $$NGINX_SSL_CRT
+      $$NGINX_SSL_KEY
       '< /etc/nginx/nginx.conf.template
       > /etc/nginx/nginx.conf
       && nginx -g 'daemon off;'"
     volumes:
-      - "./ssl:/etc/nginx/ssl"
-      - "./public:/usr/share/nginx/html"
-      - "./log:/var/log/nginx"
+      - ./ssl:/etc/nginx/ssl
+      - ./public:/usr/share/nginx/html
+      - ./log:/var/log/nginx
     ports:
       - 80:80
       - 443:443
     environment:
       NGINX_SERVER_NAME: "test.example.com"
+      NGINX_SSL_CRT: "server.crt"
+      NGINX_SSL_KEY: "server.key"
     extra_hosts:
      - local_dev:192.168.0.114
