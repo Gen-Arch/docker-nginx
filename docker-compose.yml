@@ -12,6 +12,7 @@ services:
     volumes:
       - "./ssl:/etc/nginx/ssl"
       - "./public:/usr/share/nginx/html"
+      - "./log:/var/log/nginx"
     ports:
       - 80:80
       - 443:443
