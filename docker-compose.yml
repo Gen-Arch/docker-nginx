@@ -3,6 +3,7 @@ services:
   nginx:
     build: .
     container_name: nginx
+    restart: always
     command: >
       /bin/sh -c
       "envsubst '
